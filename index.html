@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trinidad Carnival Connect — Your Carnival, Handled</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B1712;
+    --ink-2:#241F18;
+    --magenta:#E84838;
+    --gold:#EAB93C;
+    --teal:#5078F0;
+    --green:#6E9A2E;
+    --bg-red:#E1442B;
+    --bg-brown:#9C5426;
+    --bg-green:#82B33E;
+    --cream:#F8F4EC;
+    --cream-dim:#EDE2CC;
+    --line: rgba(248,244,236,0.14);
+    --glow: var(--magenta);
+    --radius: 14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background: linear-gradient(160deg, var(--bg-red) 0%, var(--bg-red) 15%, var(--cream) 45%, var(--cream) 55%, var(--bg-green) 85%, var(--bg-green) 100%);
+    color:var(--cream);
+    font-family:'Work Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    line-height:0.95;
+  }
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    font-size:12px;
+    color:var(--gold);
+    text-shadow:0 1px 8px rgba(0,0,0,0.5);
+  }
+  #eyebrowText{
+    font-size:18px;
+    font-weight:700;
+    text-shadow:0 3px 14px rgba(0,0,0,0.65);
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+  @media(prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  /* NAV */
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(255,255,255,0.97);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(27,23,18,0.1);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 24px; max-width:1180px; margin:0 auto;
+  }
+  .logo{font-family:'Anton',sans-serif; font-size:20px; letter-spacing:0.02em; text-transform:uppercase;}
+  .logo span{color:var(--magenta);}
+  .logo-chip{
+    display:flex; align-items:center;
+    padding:0;
+  }
+  .logo-chip img{height:62px; width:auto; display:block;}
+  nav.links{display:flex; gap:36px; font-size:18px; font-weight:700; text-transform:uppercase; letter-spacing:0.03em;}
+  nav.links a{text-decoration:none; opacity:0.85; transition:opacity .2s; color:var(--ink);}
+  nav.links a:hover{opacity:1; color:var(--magenta);}
+  .nav-cta{
+    background:var(--magenta); color:var(--cream); font-weight:700; font-size:16px;
+    padding:12px 22px; border-radius:999px; text-decoration:none; text-transform:uppercase; letter-spacing:0.03em;
+  }
+  .mobile-hide{display:flex;}
+  @media(max-width:760px){ .mobile-hide{display:none;} }
+
+  /* HERO */
+  .hero{
+    position:relative;
+    min-height:92vh;
+    display:flex; align-items:center;
+    overflow:hidden;
+    padding:100px 0 60px;
+    transition:background 0.6s ease;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:-20%;
+    background: radial-gradient(circle at 30% 30%, var(--glow) 0%, transparent 55%);
+    opacity:0.35;
+    transition: background 0.6s ease;
+    pointer-events:none;
+  }
+  .hero-grid{
+    position:relative; z-index:2;
+    display:grid; grid-template-columns: 1.1fr 0.9fr; gap:48px; align-items:center;
+    width:100%;
+  }
+  @media(max-width:900px){ .hero-grid{grid-template-columns:1fr;} }
+  .hero h1{font-size:clamp(42px, 7vw, 84px); margin:14px 0 18px;}
+  .hero p.sub{font-size:18px; max-width:480px; opacity:0.85; margin-bottom:28px;}
+  .hero-cta-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:14px 26px; border-radius:999px; text-decoration:none;
+    font-weight:700; font-size:15px; border:2px solid transparent; cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--magenta); color:var(--ink); box-shadow:0 8px 24px rgba(255,61,138,0.35);}
+  .btn-ghost{border-color:var(--cream); color:var(--cream); background:transparent;}
+
+  /* TOGGLE */
+  .toggle{
+    display:inline-flex; background:rgba(251,243,231,0.08); border:1px solid var(--line);
+    border-radius:999px; padding:4px; margin-bottom:22px; gap:4px;
+  }
+  .toggle button{
+    border:none; background:transparent; color:var(--cream); font-family:'Space Mono',monospace;
+    font-size:13px; letter-spacing:0.06em; text-transform:uppercase; padding:9px 18px;
+    border-radius:999px; cursor:pointer; transition:all .3s ease; opacity:0.6;
+  }
+  .toggle button.active{opacity:1;}
+  .toggle button[data-mode="party"].active{background:var(--magenta); color:var(--cream);}
+  .toggle button[data-mode="culture"].active{background:var(--green); color:var(--cream);}
+
+  .hero-photo{
+    position:relative; border-radius:20px; overflow:hidden;
+    aspect-ratio:4/5; box-shadow:0 30px 60px rgba(0,0,0,0.5);
+    border:1px solid var(--line);
+  }
+  .hero-photo img, .hero-photo video{width:100%; height:100%; object-fit:cover; transition:opacity .5s ease;}
+  .hero-photo .tag{
+    position:absolute; bottom:16px; left:16px; background:rgba(15,11,46,0.75);
+    font-family:'Space Mono',monospace; font-size:11px; padding:6px 12px; border-radius:999px;
+    border:1px solid var(--line);
+  }
+
+  /* SECTION HEADERS */
+  section{padding:100px 0;}
+  .section-head{max-width:640px; margin-bottom:56px;}
+  .section-head h2{font-size:clamp(32px,5vw,52px); margin:10px 0 16px; color:var(--cream); text-shadow:0 2px 16px rgba(0,0,0,0.55);}
+  .section-head p{font-size:16px; opacity:0.75; line-height:1.6; text-shadow:0 1px 10px rgba(0,0,0,0.5);}
+
+  /* TWO SIDES */
+  .two-sides{background:linear-gradient(160deg, var(--bg-green) 0%, var(--bg-red) 100%); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .sides-grid{display:grid; grid-template-columns:1fr 1fr; gap:0; border-radius:20px; overflow:hidden;}
+  @media(max-width:820px){ .sides-grid{grid-template-columns:1fr;} }
+  .side{position:relative; padding:56px 40px; min-height:340px;}
+  .side.party{background:linear-gradient(160deg, rgba(255,61,138,0.18), rgba(15,11,46,0.9));}
+  .side.culture{background:linear-gradient(200deg, rgba(242,183,5,0.18), rgba(15,11,46,0.9));}
+  .side .eyebrow.party-e{color:var(--magenta);}
+  .side h3{font-size:34px; margin:8px 0 14px;}
+  .side p{opacity:0.8; line-height:1.6; max-width:340px;}
+  .side ul{margin:18px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px;}
+  .side ul li{font-size:14px; opacity:0.75; display:flex; gap:8px; align-items:flex-start;}
+  .side ul li::before{content:"—"; opacity:0.5;}
+
+  /* PACKAGES */
+  .pkg-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  @media(max-width:900px){ .pkg-grid{grid-template-columns:1fr; max-width:420px; margin:0 auto;} }
+  .pkg-card{
+    background:var(--ink-2); border:1px solid var(--line); border-radius:20px;
+    padding:36px 28px; display:flex; flex-direction:column; position:relative;
+    transition:transform .25s ease, border-color .25s ease;
+  }
+  .pkg-card:hover{transform:translateY(-6px);}
+  .pkg-card.featured{border:2px solid var(--gold); background:linear-gradient(160deg, #2E2710, var(--ink-2));}
+  .pkg-card.featured::before{
+    content:"MOST BOOKED"; position:absolute; top:-13px; left:28px;
+    background:var(--gold); color:var(--ink); font-family:'Space Mono',monospace;
+    font-size:11px; padding:4px 12px; border-radius:999px; letter-spacing:0.08em; font-weight:700;
+  }
+  .pkg-card h3{font-size:26px; margin:0 0 4px;}
+  .pkg-tag{font-size:13px; opacity:0.6; margin-bottom:18px;}
+  .price{font-family:'Space Mono',monospace; font-size:34px; font-weight:700; margin-bottom:4px;}
+  .price span{font-size:14px; font-weight:400; opacity:0.6;}
+  .price-note{font-size:12.5px; opacity:0.65; margin:0 0 18px;}
+  .not-included{font-size:12.5px; opacity:0.6; margin-top:16px; padding-top:14px; border-top:1px dashed var(--line);}
+  .pkg-card ul{list-style:none; padding:0; margin:20px 0 28px; flex:1; display:flex; flex-direction:column; gap:12px;}
+  .pkg-card ul li{font-size:14px; display:flex; gap:10px; align-items:flex-start; opacity:0.9;}
+  .pkg-card ul li .check{color:var(--teal); flex-shrink:0; font-weight:700;}
+  .pkg-card.featured ul li .check{color:var(--gold);}
+  .btn-book{
+    text-align:center; padding:14px; border-radius:12px; font-weight:700;
+    background:rgba(251,243,231,0.08); color:var(--cream); text-decoration:none;
+    border:1px solid var(--line); transition:all .2s ease;
+  }
+  .pkg-card.featured .btn-book{background:var(--gold); color:var(--ink); border-color:var(--gold);}
+  .pkg-card:not(.featured) .btn-book:hover{background:var(--magenta); color:var(--ink); border-color:var(--magenta);}
+  .custom-note{
+    margin-top:36px; text-align:center; padding:22px; border:1px solid var(--line);
+    border-radius:16px; font-size:15px; opacity:0.85; background:var(--ink-2);
+  }
+  .custom-note a{color:var(--teal); font-weight:700; text-decoration:none;}
+  .talk-block{
+    margin-top:32px; display:grid; grid-template-columns:auto 1fr; gap:32px; align-items:center;
+    background:var(--ink-2); border:1px solid var(--line); border-radius:20px; padding:32px;
+  }
+  @media(max-width:700px){ .talk-block{grid-template-columns:1fr; text-align:center;} }
+  .talk-block img.qr{width:140px; height:auto; border-radius:12px; justify-self:center; border:1px solid var(--line);}
+  .talk-block h3{font-size:22px; margin:0 0 8px; text-transform:none; font-family:'Work Sans',sans-serif; font-weight:700;}
+  .talk-block p{opacity:0.8; font-size:14px; margin:0 0 4px; line-height:1.5;}
+  .btn-call{
+    display:inline-block; margin-top:14px; padding:13px 24px; border-radius:999px;
+    background:var(--teal); color:var(--cream); font-weight:700; font-size:14px; text-decoration:none;
+  }
+
+  /* GALLERY */
+  .gallery{background:linear-gradient(160deg, var(--bg-green) 0%, var(--bg-red) 100%); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .gallery-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); grid-auto-rows:140px; gap:12px;
+  }
+  @media(max-width:820px){ .gallery-grid{grid-template-columns:repeat(2,1fr); grid-auto-rows:120px;} }
+  .g-item{position:relative; border-radius:14px; overflow:hidden; border:1px solid var(--line);}
+  .g-item img,.g-item video{width:100%; height:100%; object-fit:cover;}
+  .g-item iframe{width:100%; height:100%; border:0; display:block;}
+  .g-item.tall{grid-row:span 2;}
+  .g-item.wide{grid-column:span 2;}
+  .g-item .badge{
+    position:absolute; top:10px; left:10px; background:rgba(15,11,46,0.8);
+    font-family:'Space Mono',monospace; font-size:10px; padding:4px 9px; border-radius:999px;
+  }
+  .g-item.video-item::after{
+    content:"▶"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-size:22px; color:var(--cream); background:rgba(15,11,46,0.25); pointer-events:none;
+  }
+
+  /* REVIEWS */
+  .reviews-scroll{
+    display:flex; gap:20px; overflow-x:auto; padding-bottom:12px; scroll-snap-type:x mandatory;
+  }
+  .review-card{
+    flex:0 0 320px; scroll-snap-align:start;
+    background:var(--ink-2); border:1px solid var(--line); border-radius:18px; padding:26px;
+  }
+  .stars{color:var(--gold); letter-spacing:2px; margin-bottom:12px; font-size:14px;}
+  .review-card p.quote{font-size:15px; line-height:1.6; opacity:0.9; min-height:96px;}
+  .reviewer{display:flex; align-items:center; gap:12px; margin-top:18px;}
+  .avatar{
+    width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg, var(--magenta), var(--gold));
+    display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-weight:700; font-size:14px; color:var(--ink);
+  }
+  .reviewer .name{font-size:14px; font-weight:700;}
+  .reviewer .meta{font-size:12px; opacity:0.55;}
+
+  /* CTA / FOOTER */
+  .cta-band{
+    background:linear-gradient(135deg, rgba(255,61,138,0.15), rgba(242,183,5,0.1));
+    border-top:1px solid var(--line); text-align:center; padding:90px 24px;
+  }
+  .cta-band h2{font-size:clamp(30px,6vw,56px); margin-bottom:18px; text-shadow:0 2px 16px rgba(0,0,0,0.55);}
+  .cta-band p{opacity:0.8; max-width:480px; margin:0 auto 32px; font-size:16px; text-shadow:0 1px 10px rgba(0,0,0,0.5);}
+  footer{padding:48px 24px; border-top:1px solid var(--line);}
+  .footer-inner{
+    max-width:1180px; margin:0 auto; display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px;
+  }
+  .footer-inner .logo{margin-bottom:8px;}
+  .foot-col{font-size:14px; opacity:0.7; line-height:1.8; text-shadow:0 1px 8px rgba(0,0,0,0.5);}
+  .foot-col a{text-decoration:none; opacity:0.85;}
+  .foot-col a:hover{color:var(--gold);}
+  .fine{font-size:12px; opacity:0.4; margin-top:32px; text-align:center;}
+
+  .placeholder-note{
+    font-family:'Space Mono',monospace; font-size:10px; color:var(--teal); opacity:0.7;
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="logo-chip"><img src="assets/logo.png" alt="Trinidad Carnival Connect"></div>
+    <nav class="links mobile-hide">
+      <a href="#sides">Fete + Culture</a>
+      <a href="#packages">Packages</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#reviews">Reviews</a>
+    </nav>
+    <a href="#packages" class="nav-cta">Connect With Us</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="toggle" role="tablist" aria-label="Party or culture view">
+        <button data-mode="party" class="active" onclick="setMode('party')">Jump &amp; Wine</button>
+        <button data-mode="culture" onclick="setMode('culture')">Mas &amp; Tradition</button>
+      </div>
+      <p class="eyebrow" id="eyebrowText">The Greatest Show On Earth, Uncomplicated</p>
+      <h1 id="heroHeadline">Trinidad<br>Carnival,<br>Handled.</h1>
+      <p class="sub" id="heroSub">Flights land, fetes start, costumes fit — and you never lift a finger. We handle transport, lodging, and tickets so enjoy your Carnival experience!</p>
+      <div class="hero-cta-row">
+        <a href="#packages" class="btn btn-primary">See Packages</a>
+        <a href="#gallery" class="btn btn-ghost">Watch Last Year</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <video id="heroVideo" muted loop autoplay playsinline poster="assets/hero-jouvert-poster.jpg">
+        <source src="assets/hero-jouvert.mp4" type="video/mp4">
+      </video>
+      <video id="heroVideoCulture" muted loop autoplay playsinline poster="assets/hero-jouvert-poster.jpg" style="display:none;"><source src="assets/hero-jouvert.mp4" type="video/mp4"></video>
+      <div class="tag" id="heroTag">J'ouvert Morning</div>
+    </div>
+  </div>
+</section>
+
+<!-- TWO SIDES -->
+<section class="two-sides" id="sides">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" style="color:#000;">Two Sides, One Trip</p>
+      <h2>The road &amp; the culture.<br>Both, always.</h2>
+      <p>Every curated package is built so you don't have to choose. You'll be on the road with a mas band and go to the site where it all starts at the Piccadilly Greens — the full story of Carnival, not just the highlight reel.</p>
+    </div>
+    <div class="sides-grid">
+      <div class="side party">
+        <div class="eyebrow party-e">01 — The Revelry</div>
+        <h3>Fetes &amp; the Road</h3>
+        <p>All-inclusive fetes, road march with a mas band, J'ouvert paint and powder and a trip to Maracas Beach.</p>
+        <ul>
+          <li>Curated fete ticket selection, no scalping or fake tickets</li>
+          <li>Mas band registration &amp; costume pickup handled for you</li>
+          <li>J'ouvert crew with water, powder, paint, and wotlessness</li>
+        </ul>
+      </div>
+      <div class="side culture">
+        <div class="eyebrow" style="color:var(--gold);">02 — The Culture</div>
+        <h3>Canboulay &amp; Heritage</h3>
+        <p>Steelpan, pan yards, and the history behind the mas' — the side visitors usually miss!</p>
+        <ul>
+          <li>Panorama finals seating in the Savannah</li>
+          <li>Guided visit to the pan yards to see the soul of the rhythm</li>
+          <li>Getting your taste of local delicacies — doubles, bake and shark, corn soup</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" style="color:#000;">Choose Your Carnival</p>
+      <h2>Curated packages, or build your own.</h2>
+      <p>Every tier includes our concierge team on the ground. Need something in between? Every package can be customized — change up your fetes, add makeup for Carnival Tuesday, take a trip to the Pitch Lake, add a night or two and visit Tobago, no worries, we can arrange it.</p>
+    </div>
+    <div class="pkg-grid">
+
+      <div class="pkg-card featured">
+        <h3>Solo Occupancy Package</h3>
+        <div class="pkg-tag">Feb 3–10, 2027 · 7 nights, 8 days — our signature all-in package</div>
+        <div class="price">$4,200 <span>/ person</span></div>
+        <ul>
+          <li><span class="check">✓</span> Gated community lodging with pool, Port of Spain</li>
+          <li><span class="check">✓</span> Round-trip airport transportation</li>
+          <li><span class="check">✓</span> Transport to all scheduled events (Carnival Mon &amp; Tues)</li>
+          <li><span class="check">✓</span> Costume registration help (Yuma, Tribe, or Spirit)</li>
+          <li><span class="check">✓</span> Concierge costume pickup + photos before Carnival Tuesday</li>
+          <li><span class="check">✓</span> 6 fetes incl. Soca Brainwash, AM Beach, J'ouvert &amp; AMBUSH</li>
+          <li><span class="check">✓</span> 1 concert (Hard Fete or Tribe Ignite) + cooler boat fete</li>
+          <li><span class="check">✓</span> 2 cultural events — Canboulay Riots &amp; Pan Yard visit</li>
+          <li><span class="check">✓</span> Maracas Beach trip, bake and shark included</li>
+          <li><span class="check">✓</span> Welcome goodie bag</li>
+        </ul>
+        <div class="not-included">Not included: international flights, costume (Tribe/Spirit/Yuma), Carnival Tuesday makeup, meals at lodging.</div>
+        <!-- PLACEHOLDER: replace with your Stripe Payment Link for Solo Occupancy -->
+        <a class="btn-book" href="https://buy.stripe.com/14A5kE4kecAu3Th4d0bZe02" target="_blank" rel="noopener">Book Solo Occupancy</a>
+      </div>
+
+      <div class="pkg-card">
+        <h3>Double Occupancy Package</h3>
+        <div class="pkg-tag">Feb 3–10, 2027 · 7 nights, 8 days — the Full Package, priced for two sharing a room</div>
+        <div class="price">$3,000 <span>/ person</span></div>
+        <ul>
+          <li><span class="check">✓</span> Gated community lodging with pool, Port of Spain</li>
+          <li><span class="check">✓</span> Round-trip airport transportation</li>
+          <li><span class="check">✓</span> Transport to all scheduled events (Carnival Mon &amp; Tues)</li>
+          <li><span class="check">✓</span> Costume registration help (Yuma, Tribe, or Spirit)</li>
+          <li><span class="check">✓</span> Concierge costume pickup + photos before Carnival Tuesday</li>
+          <li><span class="check">✓</span> 6 fetes incl. Soca Brainwash, AM Beach, J'ouvert &amp; AMBUSH</li>
+          <li><span class="check">✓</span> 1 concert (Hard Fete or Tribe Ignite) + cooler boat fete</li>
+          <li><span class="check">✓</span> 2 cultural events — Canboulay Riots &amp; Pan Yard visit</li>
+          <li><span class="check">✓</span> Maracas Beach trip, bake and shark included</li>
+          <li><span class="check">✓</span> Welcome goodie bag</li>
+        </ul>
+        <!-- PLACEHOLDER: replace with your Stripe Payment Link for Double Occupancy -->
+        <a class="btn-book" href="https://buy.stripe.com/dRm9AU9Ey6c60H510ObZe03" target="_blank" rel="noopener">Book Double Occupancy</a>
+      </div>
+
+      <div class="pkg-card">
+        <h3>Triple Occupancy Package</h3>
+        <div class="pkg-tag">Feb 3–10, 2027 · 7 nights, 8 days — the Full Package, priced for three sharing a room</div>
+        <div class="price">$2,500 <span>/ person</span></div>
+        <ul>
+          <li><span class="check">✓</span> Gated community lodging with pool, Port of Spain</li>
+          <li><span class="check">✓</span> Round-trip airport transportation</li>
+          <li><span class="check">✓</span> Transport to all scheduled events (Carnival Mon &amp; Tues)</li>
+          <li><span class="check">✓</span> Costume registration help (Yuma, Tribe, or Spirit)</li>
+          <li><span class="check">✓</span> Concierge costume pickup + photos before Carnival Tuesday</li>
+          <li><span class="check">✓</span> 6 fetes incl. Soca Brainwash, AM Beach, J'ouvert &amp; AMBUSH</li>
+          <li><span class="check">✓</span> 1 concert (Hard Fete or Tribe Ignite) + cooler boat fete</li>
+          <li><span class="check">✓</span> 2 cultural events — Canboulay Riots &amp; Pan Yard visit</li>
+          <li><span class="check">✓</span> Maracas Beach trip, bake and shark included</li>
+          <li><span class="check">✓</span> Welcome goodie bag</li>
+        </ul>
+        <p style="font-size:12.5px; opacity:0.6; margin-top:4px;">An air mattress may be used for the third guest.</p>
+        <!-- PLACEHOLDER: replace with your Stripe Payment Link for Triple Occupancy -->
+        <a class="btn-book" href="https://buy.stripe.com/3cI14o2c6582gG3bFsbZe04" target="_blank" rel="noopener">Book Triple Occupancy</a>
+      </div>
+
+      <div class="pkg-card">
+        <h3>Down Payment</h3>
+        <div class="pkg-tag">Secure your spot now — applied toward your Full Package</div>
+        <div class="price">$500 <span>USD, one-time</span></div>
+        <div class="price-note">Final balance due Jan 4, 2027 · monthly payment plans available</div>
+        <ul>
+          <li><span class="check">✓</span> Locks in your Carnival dates</li>
+          <li><span class="check">✓</span> Applied directly to your Full Package balance</li>
+          <li><span class="check">✓</span> 24/7 concierge WhatsApp line</li>
+          <li><span class="check">✓</span> Priority access as fetes sell out</li>
+        </ul>
+        <!-- PLACEHOLDER: replace with your Stripe Payment Link for Basic -->
+        <a class="btn-book" href="https://buy.stripe.com/9B63cw4ke43Y3Th9xkbZe00" target="_blank" rel="noopener">Book Down Payment</a>
+      </div>
+
+      <div class="pkg-card">
+        <h3>Transport Package</h3>
+        <div class="pkg-tag">Getting around handled, without the full concierge package</div>
+        <div class="price">$500 <span>/ person</span></div>
+        <ul>
+          <li><span class="check">✓</span> Airport pickup &amp; drop-off</li>
+          <li><span class="check">✓</span> Daily transport between fetes &amp; events</li>
+          <li><span class="check">✓</span> Private driver on call</li>
+          <li><span class="check">✓</span> 24/7 concierge WhatsApp line</li>
+        </ul>
+        <!-- PLACEHOLDER: replace with your Stripe Payment Link for VIP -->
+        <a class="btn-book" href="https://buy.stripe.com/4gM8wQ03Y0RMcpNdNAbZe01" target="_blank" rel="noopener">Book Transport</a>
+      </div>
+
+    </div>
+
+    <div class="custom-note">
+      Want to mix and match? Every package is a starting point. <a href="#contact">Message us</a> to build a fully customized itinerary — same safety net, your own mix of fetes, stays, and dates.
+    </div>
+
+    <div class="talk-block">
+      <img class="qr" src="assets/qr-whatsapp.png" alt="QR code to join the Trinidad Carnival Connect 2027 WhatsApp group">
+      <div>
+        <h3>Want to talk it through first?</h3>
+        <p>Scan the code to join our 2027 WhatsApp group for quick questions, or book a 45-minute call with our team to go over dates and options.</p>
+        <p style="opacity:0.6; font-size:12.5px;">Calls available Monday–Friday, 11:00 AM–7:00 PM (Eastern Standard Time)</p>
+        <!-- PLACEHOLDER: replace with your Google Calendar Appointment Schedule link -->
+        <a class="btn-call" href="https://calendar.app.google/kvmHYV4qQS2QLcgi9" target="_blank" rel="noopener">Book a 45-Minute Call</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" style="color:#000;">From The Last Few Years</p>
+      <h2>What it actually looks like.</h2>
+      <p>A mix of road march, fete nights, and Panorama — from travelers who came with us.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="g-item wide video-item">
+        <video muted loop autoplay playsinline poster="assets/gallery-jouvert-poster.jpg">
+          <source src="assets/gallery-jouvert.mp4" type="video/mp4">
+        </video>
+        <div class="badge">J'ouvert · video</div>
+      </div>
+      <div class="g-item wide video-item">
+        <video muted loop autoplay playsinline poster="assets/socadrome-poster.jpg">
+          <source src="assets/socadrome.mp4" type="video/mp4">
+        </video>
+        <div class="badge">Socadrome · video</div>
+      </div>
+      <div class="g-item video-item">
+        <video muted loop autoplay playsinline poster="assets/panorama-steelpan-poster.jpg">
+          <source src="assets/panorama-steelpan.mp4" type="video/mp4">
+        </video>
+        <div class="badge">Panorama · video</div>
+      </div>
+      <div class="g-item video-item">
+        <video muted loop autoplay playsinline poster="assets/machel-stage-poster.jpg">
+          <source src="assets/machel-stage.mp4" type="video/mp4">
+        </video>
+        <div class="badge">Machel on Stage @ SBW · video</div>
+      </div>
+      <div class="g-item video-item">
+        <video muted loop autoplay playsinline poster="assets/savannah-split-poster.jpg">
+          <source src="assets/savannah-split.mp4" type="video/mp4">
+        </video>
+        <div class="badge">split in the middle, on the Savannah Stage · video</div>
+      </div>
+      <div class="g-item wide">
+        <iframe src="https://player.vimeo.com/video/353270079?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Trinidad Carnival 2019 Road Footage"></iframe>
+        <div class="badge">2019 Road Footage · video</div>
+      </div>
+      <div class="g-item wide">
+        <iframe src="https://player.vimeo.com/video/215183342?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Trinidad Carnival 2017 Recap Video"></iframe>
+        <div class="badge">2017 Recap · video</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow" style="color:#000;">Straight From Our Travelers</p>
+      <h2>Don't take our word for it.</h2>
+    </div>
+    <div class="reviews-scroll">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="quote">I had the time of my life at Trinidad Carnival thanks to Trinidad Carnival Connect. Their VIP package was worth every penny and I can't wait to go back next year!</p>
+        <div class="reviewer">
+          <div class="avatar">AP</div>
+          <div><div class="name">Aprilee</div><div class="meta">2019, 2020, 2023</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="quote">Trinidad Carnival Connect made planning my Carnival experience stress-free and enjoyable. They took care of everything and I was able to fully immerse myself in the festivities.</p>
+        <div class="reviewer">
+          <div class="avatar">JU</div>
+          <div><div class="name">Justine</div><div class="meta">2020, 2023</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="quote">I highly recommend Trinidad Carnival Connect to anyone looking to have an unforgettable Carnival experience. The costume rental was a game-changer and I received so many compliments on my outfit!</p>
+        <div class="reviewer">
+          <div class="avatar">CH</div>
+          <div><div class="name">Chelsea</div><div class="meta">2018, 2019, 2020, 2023</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="quote">Trinidad Carnival Connect's workshops gave me the confidence to let loose and fully enjoy Carnival. I learned some new moves and had a blast on the road!</p>
+        <div class="reviewer">
+          <div class="avatar">JE</div>
+          <div><div class="name">Jerelyn</div><div class="meta">2019</div></div>
+        </div>
+      </div>
+    </div>
+    <p class="placeholder-note" style="margin-top:10px;">Reviews shown as provided by Trinidad Carnival Connect.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band" id="contact">
+  <h2>Ready for the road?</h2>
+  <p>Tell us your dates and we'll hold your spot — packages fill up fast as Carnival gets closer.</p>
+  <div class="hero-cta-row" style="justify-content:center;">
+    <a href="#packages" class="btn btn-primary">View Packages</a>
+    <!-- PLACEHOLDER: replace with your WhatsApp/contact link -->
+    <a href="https://wa.me/19143556036" class="btn btn-ghost" target="_blank" rel="noopener">Message Us on WhatsApp</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="logo-chip" style="margin-bottom:14px;"><img src="assets/logo.png" alt="Trinidad Carnival Connect"></div>
+      <div class="foot-col" style="max-width:280px;">Concierge service for travelers coming to Trinidad Carnival — transport, lodging, tickets, and peace of mind.</div>
+    </div>
+    <div class="foot-col">
+      <div><a href="#packages">Packages</a></div>
+      <div><a href="#gallery">Gallery</a></div>
+      <div><a href="#reviews">Reviews</a></div>
+    </div>
+    <div class="foot-col">
+      <!-- PLACEHOLDER: real contact details -->
+      <div>hello@trinidadcarnivalconnect.com</div>
+      <div>WhatsApp: +1 (914) 355-6036</div>
+      <div>New York, NY</div>
+    </div>
+  </div>
+  <div class="fine">© <span id="year"></span> Trinidad Carnival Connect. All rights reserved.</div>
+</footer>
+
+<script src="https://player.vimeo.com/api/player.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const content = {
+    party: {
+      eyebrow: "The Greatest Show On Earth, Uncomplicated",
+      headline: "Trinidad<br>Carnival,<br>Handled.",
+      sub: "Flights land, fetes start, costumes fit — and you never lift a finger. We handle transport, lodging, and tickets so enjoy your Carnival experience!",
+      tag: "J'ouvert Morning",
+      glow: "#E84838"
+    },
+    culture: {
+      eyebrow: "Canboulay and Pan Yards",
+      headline: "The Culture<br>Behind The<br>Costumes.",
+      sub: "Steelpan yards, canboulay riots, and mas history that most visitors never see. We make sure you get the full story, not just the pretty mas.",
+      tag: "Panorama, Queen's Park Savannah",
+      glow: "#6E9A2E"
+    }
+  };
+
+  function setMode(mode){
+    const c = content[mode];
+    const partyVideo = document.getElementById('heroVideo');
+    const cultureVideo = document.getElementById('heroVideoCulture');
+    document.getElementById('eyebrowText').textContent = c.eyebrow;
+    document.getElementById('heroHeadline').innerHTML = c.headline;
+    document.getElementById('heroSub').textContent = c.sub;
+    document.getElementById('heroTag').textContent = c.tag;
+    document.documentElement.style.setProperty('--glow', c.glow);
+    if(mode === "party"){
+      partyVideo.style.display = "block";
+      cultureVideo.style.display = "none";
+      partyVideo.play();
+      cultureVideo.pause();
+    } else {
+      partyVideo.style.display = "none";
+      cultureVideo.style.display = "block";
+      cultureVideo.play();
+      partyVideo.pause();
+    }
+    document.querySelectorAll('.toggle button').forEach(b => {
+      b.classList.toggle('active', b.dataset.mode === mode);
+    });
+  }
+</script>
+
+</body>
+</html>
