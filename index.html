@@ -3,7 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trinidad Carnival Connect — Your Carnival, Handled</title>
+
+<title>Trinidad Carnival Connect | All-Inclusive Trinidad Carnival Packages & Concierge</title>
+<meta name="description" content="All-inclusive Trinidad Carnival packages with a full concierge team on the ground. Lodging, airport transport, fete tickets, J'ouvert, and cultural events — handled from touchdown to Carnival Tuesday.">
+<meta name="keywords" content="Trinidad Carnival packages, Trinidad Carnival 2027, all-inclusive Trinidad Carnival, Trinidad Carnival concierge, J'ouvert packages, Trinidad Carnival tickets, Port of Spain Carnival, Trinidad mas band packages">
+<link rel="canonical" href="https://trinidadcarnivalconnect.com/">
+<meta name="robots" content="index, follow">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Trinidad Carnival Connect">
+<meta property="og:title" content="Trinidad Carnival Connect | All-Inclusive Trinidad Carnival Packages">
+<meta property="og:description" content="Transportation, lodging, and fete tickets in one curated package. Trinidad Carnival, handled from touchdown to J'ouvert.">
+<meta property="og:image" content="https://trinidadcarnivalconnect.com/assets/favicon-512.png">
+<meta property="og:url" content="https://trinidadcarnivalconnect.com/">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Trinidad Carnival Connect | All-Inclusive Trinidad Carnival Packages">
+<meta name="twitter:description" content="Transportation, lodging, and fete tickets in one curated package. Trinidad Carnival, handled from touchdown to J'ouvert.">
+<meta name="twitter:image" content="https://trinidadcarnivalconnect.com/assets/favicon-512.png">
+
+<!-- Favicons -->
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TravelAgency",
+  "name": "Trinidad Carnival Connect",
+  "description": "Concierge service for travelers coming to Trinidad Carnival — transportation, lodging, fete tickets, and curated cultural experiences.",
+  "url": "https://trinidadcarnivalconnect.com/",
+  "logo": "https://trinidadcarnivalconnect.com/assets/favicon-512.png",
+  "image": "https://trinidadcarnivalconnect.com/assets/favicon-512.png",
+  "telephone": "+1-914-584-4251",
+  "email": "yourconnect@trinidadcarnivalconnect.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "New York",
+    "addressRegion": "NY",
+    "addressCountry": "US"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "Trinidad and Tobago"
+  },
+  "sameAs": [
+    "https://www.instagram.com/trinidadcarnivalconnect"
+  ],
+  "makesOffer": [
+    {
+      "@type": "Offer",
+      "name": "Solo Occupancy Package",
+      "price": "4200",
+      "priceCurrency": "USD",
+      "description": "7 nights, 8 days all-inclusive Trinidad Carnival package for one traveler — lodging, transport, fetes, and cultural events."
+    },
+    {
+      "@type": "Offer",
+      "name": "Double Occupancy Package",
+      "price": "3000",
+      "priceCurrency": "USD",
+      "description": "7 nights, 8 days all-inclusive Trinidad Carnival package, priced per person for two sharing a room."
+    },
+    {
+      "@type": "Offer",
+      "name": "Triple Occupancy Package",
+      "price": "2500",
+      "priceCurrency": "USD",
+      "description": "7 nights, 8 days all-inclusive Trinidad Carnival package, priced per person for three sharing a room."
+    }
+  ]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -86,7 +166,34 @@
     padding:12px 22px; border-radius:999px; text-decoration:none; text-transform:uppercase; letter-spacing:0.03em;
   }
   .mobile-hide{display:flex;}
-  @media(max-width:760px){ .mobile-hide{display:none;} }
+  @media(max-width:760px){ .mobile-hide{display:none !important;} }
+
+  .hamburger{
+    display:none; flex-direction:column; justify-content:center; gap:5px;
+    background:none; border:none; cursor:pointer; padding:8px; margin:0;
+  }
+  .hamburger span{width:24px; height:2.5px; background:var(--ink); border-radius:2px; transition:all .25s ease;}
+  .hamburger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg);}
+  .hamburger.open span:nth-child(2){opacity:0;}
+  .hamburger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg);}
+  @media(max-width:760px){ .hamburger{display:flex;} }
+
+  .mobile-menu{
+    display:none; flex-direction:column;
+    position:absolute; top:100%; left:0; right:0;
+    background:rgba(255,255,255,0.98); backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(27,23,18,0.1);
+    padding:8px 24px 20px;
+  }
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{
+    padding:14px 0; border-bottom:1px solid var(--line); text-decoration:none;
+    color:var(--ink); font-weight:700; text-transform:uppercase; font-size:15px; letter-spacing:0.03em;
+  }
+  .mobile-menu a:last-of-type{border-bottom:none;}
+  .mobile-menu .nav-cta{
+    text-align:center; margin-top:14px; border:none;
+  }
 
   /* HERO */
   .hero{
@@ -293,7 +400,19 @@
       <a href="#packages">Packages</a>
       <a href="#gallery">Gallery</a>
       <a href="#reviews">Reviews</a>
+      <a href="terms.html">Terms</a>
     </nav>
+    <a href="#packages" class="nav-cta mobile-hide">Connect With Us</a>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#sides">Fete + Culture</a>
+    <a href="#packages">Packages</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#reviews">Reviews</a>
+    <a href="terms.html">Terms</a>
     <a href="#packages" class="nav-cta">Connect With Us</a>
   </div>
 </header>
@@ -516,6 +635,48 @@
         </video>
         <div class="badge">split in the middle, on the Savannah Stage · video</div>
       </div>
+      <div class="g-item tall video-item">
+        <video muted loop autoplay playsinline poster="assets/road-march-poster.jpg">
+          <source src="assets/road-march.mp4" type="video/mp4">
+        </video>
+        <div class="badge">Road March · video</div>
+      </div>
+      <div class="g-item tall video-item">
+        <video muted loop autoplay playsinline poster="assets/am-beach-poster.jpg">
+          <source src="assets/am-beach.mp4" type="video/mp4">
+        </video>
+        <div class="badge">AM Beach · video</div>
+      </div>
+      <div class="g-item tall video-item">
+        <video muted loop autoplay playsinline poster="assets/ambush-poster.jpg">
+          <source src="assets/ambush.mp4" type="video/mp4">
+        </video>
+        <div class="badge">AMBUSH · video</div>
+      </div>
+      <div class="g-item tall video-item">
+        <video muted loop autoplay playsinline poster="assets/maracas-beach-poster.jpg">
+          <source src="assets/maracas-beach.mp4" type="video/mp4">
+        </video>
+        <div class="badge">Maracas Beach · video</div>
+      </div>
+      <div class="g-item tall video-item">
+        <video muted loop autoplay playsinline poster="assets/mas-presentation-poster.jpg">
+          <source src="assets/mas-presentation.mp4" type="video/mp4">
+        </video>
+        <div class="badge">Mas Presentation · video</div>
+      </div>
+      <div class="g-item tall video-item">
+        <video muted loop autoplay playsinline poster="assets/savannah-stands-poster.jpg">
+          <source src="assets/savannah-stands.mp4" type="video/mp4">
+        </video>
+        <div class="badge">Savannah Stands · video</div>
+      </div>
+      <div class="g-item tall video-item">
+        <video muted loop autoplay playsinline poster="assets/touch-down-poster.jpg">
+          <source src="assets/touch-down.mp4" type="video/mp4">
+        </video>
+        <div class="badge">Touch Down · video</div>
+      </div>
       <div class="g-item wide">
         <iframe src="https://player.vimeo.com/video/353270079?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Trinidad Carnival 2019 Road Footage"></iframe>
         <div class="badge">2019 Road Footage · video</div>
@@ -594,6 +755,7 @@
       <div><a href="#packages">Packages</a></div>
       <div><a href="#gallery">Gallery</a></div>
       <div><a href="#reviews">Reviews</a></div>
+      <div><a href="terms.html">Terms</a></div>
     </div>
     <div class="foot-col">
       <!-- PLACEHOLDER: real contact details -->
@@ -608,6 +770,22 @@
 <script src="https://player.vimeo.com/api/player.js"></script>
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  function toggleMobileMenu(){
+    const menu = document.getElementById('mobileMenu');
+    const btn = document.getElementById('hamburgerBtn');
+    const isOpen = menu.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  }
+
+  document.querySelectorAll('.mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.remove('open');
+      document.getElementById('hamburgerBtn').classList.remove('open');
+      document.getElementById('hamburgerBtn').setAttribute('aria-expanded', 'false');
+    });
+  });
 
   const content = {
     party: {
