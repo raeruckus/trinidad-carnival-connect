@@ -8,6 +8,21 @@
 <meta name="robots" content="noindex, follow">
 <link rel="canonical" href="https://trinidadcarnivalconnect.com/terms.html">
 
+<!-- Link preview (Open Graph / Twitter) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Trinidad Carnival Connect">
+<meta property="og:title" content="Terms &amp; Conditions | Trinidad Carnival Connect">
+<meta property="og:description" content="How to secure your Trinidad Carnival Connect package — registration steps, payments, and our full terms.">
+<meta property="og:image" content="https://trinidadcarnivalconnect.com/assets/social-share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Carnival revelers in feathered costumes on the road in Trinidad — Trinidad Carnival Connect">
+<meta property="og:url" content="https://trinidadcarnivalconnect.com/terms.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Terms &amp; Conditions | Trinidad Carnival Connect">
+<meta name="twitter:description" content="How to secure your Trinidad Carnival Connect package — registration steps, payments, and our full terms.">
+<meta name="twitter:image" content="https://trinidadcarnivalconnect.com/assets/social-share.jpg">
+
 <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
@@ -71,7 +86,34 @@
     padding:12px 22px; border-radius:999px; text-decoration:none; text-transform:uppercase; letter-spacing:0.03em;
   }
   .mobile-hide{display:flex;}
-  @media(max-width:820px){ .mobile-hide{display:none;} }
+  @media(max-width:820px){ .mobile-hide{display:none !important;} }
+
+  .hamburger{
+    display:none; flex-direction:column; justify-content:center; gap:5px;
+    background:none; border:none; cursor:pointer; padding:8px; margin:0;
+  }
+  .hamburger span{width:24px; height:2.5px; background:var(--ink); border-radius:2px; transition:all .25s ease;}
+  .hamburger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg);}
+  .hamburger.open span:nth-child(2){opacity:0;}
+  .hamburger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg);}
+  @media(max-width:820px){ .hamburger{display:flex;} }
+
+  .mobile-menu{
+    display:none; flex-direction:column;
+    position:absolute; top:100%; left:0; right:0;
+    background:rgba(255,255,255,0.98); backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(27,23,18,0.1);
+    padding:8px 24px 20px;
+  }
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{
+    padding:14px 0; border-bottom:1px solid var(--line); text-decoration:none;
+    color:var(--ink); font-weight:700; text-transform:uppercase; font-size:15px; letter-spacing:0.03em;
+  }
+  .mobile-menu a:last-of-type{border-bottom:none;}
+  .mobile-menu .nav-cta{
+    text-align:center; margin-top:14px; border:none;
+  }
 
   .page-head{padding:60px 0 30px;}
   .page-head .eyebrow{
@@ -131,6 +173,17 @@
       <a href="index.html#reviews">Reviews</a>
       <a href="terms.html" class="current">Terms</a>
     </nav>
+    <a href="index.html#packages" class="nav-cta mobile-hide">Connect With Us</a>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html#sides">Fete + Culture</a>
+    <a href="index.html#packages">Packages</a>
+    <a href="index.html#gallery">Gallery</a>
+    <a href="index.html#reviews">Reviews</a>
+    <a href="terms.html" class="current">Terms</a>
     <a href="index.html#packages" class="nav-cta">Connect With Us</a>
   </div>
 </header>
@@ -247,6 +300,22 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  function toggleMobileMenu(){
+    const menu = document.getElementById('mobileMenu');
+    const btn = document.getElementById('hamburgerBtn');
+    const isOpen = menu.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  }
+
+  document.querySelectorAll('.mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.remove('open');
+      document.getElementById('hamburgerBtn').classList.remove('open');
+      document.getElementById('hamburgerBtn').setAttribute('aria-expanded', 'false');
+    });
+  });
 </script>
 
 </body>
